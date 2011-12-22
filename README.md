@@ -5,21 +5,17 @@ A very small [Alfred](http://www.alfredapp.com/) extension that uses Google's co
 ### Currency conversion
 
 Query:
-
 "= $12 in £"
 
 Result: 
-
 "US$ 12 = 7.5 UK£" in Growl
 
 ### Units
 
 Query:
-
 "= 10 cm in inch"
 
 Result: 
-
 "10 cm = 9.93 inches" in Growl
 
 ## TODO
