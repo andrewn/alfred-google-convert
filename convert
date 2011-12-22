@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
+begin
+    # Fetch and clean query string
+    query = ARGV.join(' ').gsub('\\', '')
+
+    # Escape for URL
+    require 'uri'
+    query_escaped = URI.escape(query)
+    
+    url = "http://www.google.com/ig/calculator?hl=en&q=#{query_escaped}"
+
+    require 'open-uri'
+    response_io   = open(url)
+    response_body = response_io.readlines.join
+
+    # Convert 
+    require 'iconv'
+    ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
+    response_body = ic.iconv(response_body + ' ')[0..-2]
+
+    # Match invalid-JSON response
+    match_lhs = /lhs: ?"([^"]*)"/
+    match_rhs = /rhs: ?"([^"]*)"/
+
+    lhs = match_lhs.match(response_body)[1].to_s
+    rhs = match_rhs.match(response_body)[1].to_s
+
+    if lhs and rhs
+        puts "#{lhs} = #{rhs}"
+    else 
+        puts "Error :-("
+    end
+
+rescue
+    puts "Error."
+    raise
+end
